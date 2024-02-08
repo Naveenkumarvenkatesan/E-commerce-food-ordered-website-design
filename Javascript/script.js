@@ -23,43 +23,44 @@ function loadcontent() {
 let btnRemove = document.querySelectorAll('.cart-remove');
 console.log(btnRemove);
 btnRemove.forEach((btn) => {
-btn.addEventListener('click', removeitem);
+btn.addEventListener('click', removeItem);
 });
 
 let qtyElements = document.querySelectorAll('.cart-quantity');
 qtyElements.forEach((input) => {
-input.addEventListener('change', changeqty);
+input.addEventListener('change', changeQty);
 });
 
 let cartBtns = document.querySelectorAll('.add-cart');
 cartBtns.forEach((btn) => {
-btn.addEventListener('click', AddCart); // Assuming AddCart is defined elsewhere
+btn.addEventListener('click', addCart); // Assuming AddCart is defined elsewhere
 });
 updateTotal();
 }
 
-function removeitem() {
+function removeItem() {
 // Your removeitem function logic goes here
-}
+// }
 
-// Define the AddCart function if it's not already defined
-function AddCart() {
-// Your AddCart function logic goes here
-}
+// // Define the AddCart function if it's not already defined
+// function AddCart() {
+// // Your AddCart function logic goes here
+// }
 
-function changeqty() {
-// Your changeqty function logic goes here
-}
+// function changeqty() {
+// // Your changeqty function logic goes here
+// }
 
-function updateTotal() {
-// Your updateTotal function logic goes here
-}
+// function updateTotal() {
+// // Your updateTotal function logic goes here
+// }
 
 if (confirm('Are you sure to remove')) {
 let title = this.parentElement.querySelector('.cart-food-title').innerHTML;
 itemlist = itemlist.filter(el => el.title != title);
 this.parentElement.remove();
 loadcontent();
+}
 }
 
 function changeQty() {
@@ -88,7 +89,10 @@ itemlist.push(newProduct);
 let newProductElement = createCartProduct(title, price, imgsrc);
 let element = document.createElement('div');
 element.innerHTML = newProductElement;
-// Append new product to the cart
+let cartBasket = document.querySelector('.cart-content');
+cartBasket.append(element);
+loadcontent();
+
 }
 
 function createCartProduct(title, price, imgSrc) {
@@ -117,31 +121,16 @@ const totalValue = document.querySelector('.total-price');
 let total = 0;
 cartItems.forEach(product => {
 let priceElement = product.querySelector('.cart-price');
-let price = parseFloat(priceElement.innerHTML.replace("Rs.", ""));
+let price = parseeFloat(priceElement.innerHTML.replace("Rs.", ""));
 let qty = product.querySelector('.cart-quantity').value;
-total += price * qty;
-product.querySelector('.cart-ant').innerText = total; // Update the subtotal for each product
+total += (price * qty);
+product.querySelector('.cart-ant').innerText = "Rs." +(price*qty); 
 });
 
-totalValue.innerText = total; // Update the total value
+totalValue.innerHTML = 'Rs.' + total; 
 }
 
 
-function updateTotal() {
-const cartItems = document.querySelectorAll('.cart-box');
-const totalValue = document.querySelector('.total-price');
-
-let total = 0;
-cartItems.forEach(product => {
-let priceElement = product.querySelector('.cart-price');
-let price = parseFloat(priceElement.innerHTML.replace("Rs.", ""));
-let qty = parseInt(product.querySelector('.cart-quantity').value);
-product.querySelector('.cart-ant').innerHTML = "Rs." + (price * qty);
-total += price * qty;
-});
-
-totalValue.innerHTML = 'Rs. ' + total;
-}
 
 const cartCount = document.querySelector('.cart-count');
 let count = itemlist.length;
@@ -149,6 +138,7 @@ cartCount.innerHTML = count;
 
 if (count === 0) {
 cartCount.style.display = 'none';
-} else {
+} 
+else {
 cartCount.style.display = 'block';
 }
